@@ -61,6 +61,7 @@
 
             .navbar-buttons button:hover {
                 background-color: #333;
+                box-shadow: 0 0 10px rgba(108, 99, 255, 0.5);
             }
 
             .main-content {
@@ -259,6 +260,22 @@
                 color: black;
                 text-decoration: none;
                 cursor: pointer;
+            }
+
+            @media (max-width: 768px) {
+                .main-content {
+                    flex-direction: column;
+                }
+
+                .left-sidebar, .right-sidebar {
+                    width: 100%;
+                    border: none;
+                }
+
+                .top-navbar {
+                    flex-direction: column;
+                    gap: 10px;
+                }
             }
         </style>
 </head>
