@@ -1,16 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>FOR SECURITY TOOL</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <h1>Smart Form Tool</h1>
-        <div class="container">
-            <button onclick="openBuilder()">Form Builder</button>
-            <button onclick="openScanner()">Form Scanner</button>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FOR SECURITY TOOL</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700&family=DM+Sans:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="hub-container">
+        <div class="tool-card">
+            <div class="card-icon">
+                <i class="fas fa-file-alt"></i>
+            </div>
+            <h2 class="card-title">Form Builder</h2>
+            <p class="card-description">Create powerful custom forms — drag & drop, 10+ field types, logic jumps, multi-page, themes & more.</p>
+            <a href="form-builder.html" class="card-button">Open Tool</a>
         </div>
-        <div id="result"> </div>
-        <script src="script.js"></script>
-    </body>
+        <div class="tool-card">
+            <div class="card-icon">
+                <i class="fas fa-qrcode"></i>
+            </div>
+            <h2 class="card-title">QR Manager</h2>
+            <p class="card-description">Generate QR codes for your forms & scan existing QR codes instantly from browser.</p>
+            <button class="card-button disabled" disabled>Coming Soon</button>
+        </div>
+    </div>
+</body>
 </html>

@@ -1,47 +1,94 @@
-body{
-    background-color: #f0f0f0;
-    font-family: Arial, sans-serif;
-    margin: 100px;
-    padding: 50px;
-    text-align:center;
-    background-image:url('background.jpeg');
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'DM Sans', sans-serif;
+    background-image: url('background.jpeg');
     background-size: cover;
-}
-
-h1 {
-    color: #333;
-    text-align: center;
-    margin-top:auto;
-    font-size: 50px;
-}
-
-.container {
+    background-position: center;
+    background-attachment: fixed;
     display: flex;
-    gap: 500px;
     justify-content: center;
-}
-
-button {
-    background-color: #4CAF50;
+    align-items: center;
+    min-height: 100vh;
     color: white;
-    padding: 10px 20px;
+}
+
+.hub-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    padding: 20px;
+    flex-wrap: wrap;
+}
+
+.tool-card {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    padding: 30px;
+    width: 320px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tool-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+.card-icon {
+    font-size: 50px;
+    margin-bottom: 20px;
+}
+
+.card-icon .fa-file-alt {
+    color: #6c63ff;
+}
+
+.card-icon .fa-qrcode {
+    color: #4CAF50;
+}
+
+.card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.card-description {
+    font-size: 16px;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+.card-button {
+    display: inline-block;
+    background: #6c63ff;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s ease;
     border: none;
-    border-radius: 50px;
     cursor: pointer;
-    font-size:25px;
-    box-shadow: 1px 4px #060606;
+    font-family: 'DM Sans', sans-serif;
 }
 
-
-
-button:hover {
-    background-color: #45a049;
+.card-button:hover {
+    background: #574fd8;
 }
 
-#result {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 50px;
+.card-button.disabled {
+    background: #555;
+    cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+    .hub-container {
+        flex-direction: column;
+    }
 }

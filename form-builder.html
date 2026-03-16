@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Builder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <style>
+            body, html {
+                margin: 0;
+                padding: 0;
+                height: 100%;
+                font-family: 'DM Sans', sans-serif;
+                background-color: #0f0f13;
+                color: #fff;
+            }
+
+            .form-builder-container {
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+            }
+
+            .top-navbar {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 10px 20px;
+                background-color: #1a1a24;
+                border-bottom: 1px solid #242436;
+            }
+
+            .logo {
+                font-family: 'Syne', sans-serif;
+                font-size: 24px;
+                font-weight: 700;
+                color: #6c63ff;
+            }
+            
+            .form-title-container h1 {
+                font-family: 'Syne', sans-serif;
+                font-size: 20px;
+                font-weight: 700;
+                color: #fff;
+                border: none;
+                background: transparent;
+                text-align: center;
+            }
+
+            .navbar-buttons button {
+                background-color: #242436;
+                color: #fff;
+                border: 1px solid #333;
+                padding: 8px 15px;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-left: 10px;
+                transition: background-color 0.3s ease;
+            }
+
+            .navbar-buttons button:hover {
+                background-color: #333;
+            }
+
+            .main-content {
+                display: flex;
+                flex-grow: 1;
+                overflow: hidden;
+            }
+
+            .left-sidebar {
+                width: 260px;
+                background-color: #1a1a24;
+                padding: 20px;
+                border-right: 1px solid #242436;
+                overflow-y: auto;
+            }
+
+            .center-canvas {
+                flex-grow: 1;
+                padding: 20px;
+                overflow-y: auto;
+            }
+
+            .right-sidebar {
+                width: 300px;
+                background-color: #1a1a24;
+                padding: 20px;
+                border-left: 1px solid #242436;
+                overflow-y: auto;
+            }
+
+            .field-group h3 {
+                font-family: 'Syne', sans-serif;
+                font-size: 16px;
+                color: #6c63ff;
+                margin-top: 0;
+                margin-bottom: 15px;
+            }
+
+            .field-type {
+                display: flex;
+                align-items: center;
+                background-color: #242436;
+                padding: 10px;
+                border-radius: 5px;
+                margin-bottom: 10px;
+                cursor: grab;
+                transition: background-color 0.3s ease;
+            }
+
+            .field-type:hover {
+                background-color: #333;
+            }
+
+            .field-type i {
+                margin-right: 10px;
+                color: #999;
+            }
+
+            .empty-canvas {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 100%;
+                color: #444;
+            }
+
+            .empty-canvas i {
+                font-size: 50px;
+                margin-bottom: 20px;
+            }
+
+            .empty-canvas h2 {
+                font-family: 'Syne', sans-serif;
+                font-size: 24px;
+            }
+
+            .form-field {
+                background-color: #242436;
+                border: 1px solid #333;
+                border-radius: 5px;
+                padding: 20px;
+                margin-bottom: 15px;
+            }
+
+            .form-field label {
+                display: block;
+                margin-bottom: 10px;
+                font-weight: 500;
+            }
+
+            .form-field input,
+            .form-field textarea {
+                width: 100%;
+                padding: 10px;
+                border-radius: 5px;
+                border: 1px solid #444;
+                background-color: #333;
+                color: #fff;
+            }
+
+            .choice-option {
+                display: flex;
+                align-items: center;
+                margin-bottom: 5px;
+            }
+
+            .choice-option input {
+                width: auto;
+                margin-right: 10px;
+            }
+
+            .linear-scale {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .star-rating i, .emoji-rating span {
+                font-size: 24px;
+                cursor: pointer;
+                margin: 0 5px;
+            }
+
+            #properties-panel h3 {
+                font-family: 'Syne', sans-serif;
+                font-size: 16px;
+                color: #6c63ff;
+                margin-top: 0;
+                margin-bottom: 15px;
+            }
+
+            #properties-panel label {
+                display: block;
+                margin-bottom: 5px;
+                font-size: 14px;
+            }
+
+            #properties-panel input[type="text"],
+            #properties-panel textarea {
+                width: 100%;
+                padding: 8px;
+                border-radius: 5px;
+                border: 1px solid #444;
+                background-color: #333;
+                color: #fff;
+                margin-bottom: 15px;
+            }
+
+            .checkbox-wrapper {
+                display: flex;
+                align-items: center;
+            }
+
+            .checkbox-wrapper input {
+                width: auto;
+                margin-right: 10px;
+            }
+
+            .form-field.selected {
+                border-left: 3px solid #6c63ff;
+                box-shadow: 0 0 10px rgba(108, 99, 255, 0.5);
+            }
+
+            .modal {
+                display: none; 
+                position: fixed; 
+                z-index: 1; 
+                left: 0;
+                top: 0;
+                width: 100%; 
+                height: 100%; 
+                overflow: auto; 
+                background-color: rgb(0,0,0); 
+                background-color: rgba(0,0,0,0.4); 
+            }
+
+            .modal-content {
+                background-color: #fefefe;
+                margin: 15% auto; 
+                padding: 20px; 
+                border: 1px solid #888; 
+                width: 80%; 
+                color: #000;
+            }
+
+            .close-btn {
+                color: #aaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+            }
+
+            .close-btn:hover,
+            .close-btn:focus {
+                color: black;
+                text-decoration: none;
+                cursor: pointer;
+            }
+        </style>
+</head>
+<body>
+    <div class="form-builder-container">
+        <nav class="top-navbar">
+            <div class="logo">FormForge</div>
+            <div class="form-title-container">
+                <h1 contenteditable="true">Untitled Form</h1>
+            </div>
+            <div class="navbar-buttons">
+                <button id="preview-btn">Preview</button>
+                <button id="export-json-btn">Export JSON</button>
+                <button id="export-html-btn">Export HTML</button>
+                <button id="share-btn">Share</button>
+                <button id="clear-btn">Clear</button>
+            </div>
+        </nav>
+        <div class="main-content">
+            <aside class="left-sidebar">
+                <div class="field-group">
+                    <h3>Basic</h3>
+                    <div class="field-type" draggable="true" data-type="short-text">
+                        <i class="fas fa-font"></i>
+                        <span>Short Text</span>
+                    </div>
+                    <div class="field-type" draggable="true" data-type="long-text">
+                        <i class="fas fa-paragraph"></i>
+                        <span>Long Text</span>
+                    </div>
+                    <div class="field-type" draggable="true" data-type="number">
+                        <i class="fas fa-hashtag"></i>
+                        <span>Number</span>
+                    </div>
+                    <div class="field-type" draggable="true" data-type="email">
+                        <i class="fas fa-envelope"></i>
+                        <span>Email</span>
+                    </div>
+                </div>
+            </aside>
+            <main class="center-canvas">
+                <div class="empty-canvas">
+                    <i class="fas fa-hand-pointer"></i>
+                    <h2>Drag a field here to start building</h2>
+                </div>
+            </main>
+            <aside class="right-sidebar">
+                <div id="properties-panel">
+                    <div id="global-settings">
+                        <h3>Form Settings</h3>
+                        <label for="form-title-input">Form Title</label>
+                        <input type="text" id="form-title-input" value="Untitled Form">
+                        <label for="form-description-input">Description</label>
+                        <textarea id="form-description-input"></textarea>
+                    </div>
+                    <div id="field-settings" style="display: none;">
+                        <h3>Field Properties</h3>
+                        <label for="label-input">Label</label>
+                        <input type="text" id="label-input">
+                        <label for="placeholder-input">Placeholder</label>
+                        <input type="text" id="placeholder-input">
+                        <div class="checkbox-wrapper">
+                            <input type="checkbox" id="required-checkbox">
+                            <label for="required-checkbox">Required</label>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+    <div id="preview-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <div id="preview-content"></div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const fieldTypes = document.querySelectorAll('.field-type');
+            const canvas = document.querySelector('.center-canvas');
+            const emptyCanvas = document.querySelector('.empty-canvas');
+
+            fieldTypes.forEach(field => {
+                field.addEventListener('dragstart', (e) => {
+                    e.dataTransfer.setData('text/plain', e.target.dataset.type);
+                    e.target.style.cursor = 'grabbing';
+                });
+
+                field.addEventListener('dragend', (e) => {
+                    e.target.style.cursor = 'grab';
+                });
+            });
+
+            canvas.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                canvas.style.border = '2px dashed #6c63ff';
+            });
+
+            canvas.addEventListener('dragleave', () => {
+                canvas.style.border = 'none';
+            });
+
+            canvas.addEventListener('drop', (e) => {
+                e.preventDefault();
+                canvas.style.border = 'none';
+                if (emptyCanvas) {
+                    emptyCanvas.style.display = 'none';
+                }
+
+                const fieldType = e.dataTransfer.getData('text/plain');
+                const newField = createFieldElement(fieldType);
+                canvas.appendChild(newField);
+            });
+
+            function createFieldElement(type) {
+                const fieldWrapper = document.createElement('div');
+                fieldWrapper.classList.add('form-field');
+
+                let fieldHtml = '';
+                switch (type) {
+                    case 'short-text':
+                        fieldHtml = `<label>Short Text</label><input type="text" placeholder="Enter short text">`;
+                        break;
+                    case 'long-text':
+                        fieldHtml = `<label>Long Text</label><textarea placeholder="Enter long text"></textarea>`;
+                        break;
+                    case 'number':
+                        fieldHtml = `<label>Number</label><input type="number" placeholder="Enter a number">`;
+                        break;
+                    case 'email':
+                        fieldHtml = `<label>Email</label><input type="email" placeholder="Enter your email">`;
+                        break;
+                    case 'phone':
+                        fieldHtml = `<label>Phone</label><input type="tel" placeholder="Enter your phone number">`;
+                        break;
+                    case 'url':
+                        fieldHtml = `<label>URL</label><input type="url" placeholder="Enter a URL">`;
+                        break;
+                    case 'password':
+                        fieldHtml = `<label>Password</label><input type="password" placeholder="Enter a password">`;
+                        break;
+                    case 'multiple-choice':
+                        fieldHtml = `<label>Multiple Choice</label><div class="choice-option"><input type="radio" name="mcq"><label>Option 1</label></div><div class="choice-option"><input type="radio" name="mcq"><label>Option 2</label></div>`;
+                        break;
+                    case 'checkboxes':
+                        fieldHtml = `<label>Checkboxes</label><div class="choice-option"><input type="checkbox"><label>Option 1</label></div><div class="choice-option"><input type="checkbox"><label>Option 2</label></div>`;
+                        break;
+                    case 'dropdown':
+                        fieldHtml = `<label>Dropdown</label><select><option>Option 1</option><option>Option 2</option></select>`;
+                        break;
+                    case 'linear-scale':
+                        fieldHtml = `<label>Linear Scale</label><div class="linear-scale"><label>Worst</label><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><label>Best</label></div>`;
+                        break;
+                    case 'star-rating':
+                        fieldHtml = `<label>Star Rating</label><div class="star-rating"><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></div>`;
+                        break;
+                    case 'emoji-rating':
+                        fieldHtml = `<label>Emoji Rating</label><div class="emoji-rating"><span>&#128549;</span><span>&#128533;</span><span>&#128528;</span><span>&#128522;</span><span>&#128513;</span></div>`;
+                        break;
+                    case 'date-picker':
+                        fieldHtml = `<label>Date Picker</label><input type="date">`;
+                        break;
+                    case 'time-picker':
+                        fieldHtml = `<label>Time Picker</label><input type="time">`;
+                        break;
+                    case 'date-range':
+                        fieldHtml = `<label>Date Range</label><input type="date"> to <input type="date">`;
+                        break;
+                    case 'date-time':
+                        fieldHtml = `<label>Date+Time</label><input type="datetime-local">`;
+                        break;
+                }
+
+                fieldWrapper.innerHTML = fieldHtml;
+
+                fieldWrapper.addEventListener('click', () => {
+                    selectField(fieldWrapper);
+                });
+
+                return fieldWrapper;
+            }
+
+            function selectField(field) {
+                const allFields = document.querySelectorAll('.form-field');
+                allFields.forEach(f => f.classList.remove('selected'));
+                field.classList.add('selected');
+
+                document.getElementById('global-settings').style.display = 'none';
+                document.getElementById('field-settings').style.display = 'block';
+
+                const labelInput = document.getElementById('label-input');
+                const placeholderInput = document.getElementById('placeholder-input');
+                const requiredCheckbox = document.getElementById('required-checkbox');
+
+                const label = field.querySelector('label');
+                const input = field.querySelector('input') || field.querySelector('textarea');
+
+                labelInput.value = label.textContent;
+                placeholderInput.value = input.placeholder;
+                requiredCheckbox.checked = input.required;
+
+                labelInput.oninput = () => label.textContent = labelInput.value;
+                placeholderInput.oninput = () => input.placeholder = placeholderInput.value;
+                requiredCheckbox.onchange = () => input.required = requiredCheckbox.checked;
+            }
+
+            document.getElementById('clear-btn').addEventListener('click', () => {
+                canvas.innerHTML = '';
+                canvas.appendChild(emptyCanvas);
+                emptyCanvas.style.display = 'flex';
+                document.getElementById('global-settings').style.display = 'block';
+                document.getElementById('field-settings').style.display = 'none';
+            });
+
+            document.getElementById('export-json-btn').addEventListener('click', () => {
+                const formJSON = {
+                    title: document.querySelector('.form-title-container h1').textContent,
+                    description: document.getElementById('form-description-input').value,
+                    fields: []
+                };
+
+                const fields = document.querySelectorAll('.form-field');
+                fields.forEach(field => {
+                    const label = field.querySelector('label').textContent;
+                    const input = field.querySelector('input') || field.querySelector('textarea') || field.querySelector('select');
+                    const type = input.type;
+                    const placeholder = input.placeholder;
+                    const required = input.required;
+
+                    formJSON.fields.push({ label, type, placeholder, required });
+                });
+
+                const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(formJSON, null, 2));
+                const downloadAnchorNode = document.createElement('a');
+                downloadAnchorNode.setAttribute("href",     dataStr);
+                downloadAnchorNode.setAttribute("download", "form.json");
+                document.body.appendChild(downloadAnchorNode); // required for firefox
+                downloadAnchorNode.click();
+                downloadAnchorNode.remove();
+            });
+
+            document.getElementById('export-html-btn').addEventListener('click', () => {
+                const formTitle = document.querySelector('.form-title-container h1').textContent;
+                const formDescription = document.getElementById('form-description-input').value;
+
+                let formHtml = `<h2>${formTitle}</h2><p>${formDescription}</p>`;
+                const fields = document.querySelectorAll('.form-field');
+                fields.forEach(field => {
+                    formHtml += field.innerHTML;
+                });
+
+                const html = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${formTitle}</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; border: 1px solid #eee; border-radius: 10px; }
+        h2 { margin-top: 0; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, textarea, select { width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #ccc; }
+    </style>
+</head>
+<body>
+    <form>${formHtml}</form>
+</body>
+</html>
+                `;
+
+                const dataStr = "data:text/html;charset=utf-8," + encodeURIComponent(html);
+                const downloadAnchorNode = document.createElement('a');
+                downloadAnchorNode.setAttribute("href",     dataStr);
+                downloadAnchorNode.setAttribute("download", "form.html");
+                document.body.appendChild(downloadAnchorNode); // required for firefox
+                downloadAnchorNode.click();
+                downloadAnchorNode.remove();
+            });
+
+            const previewModal = document.getElementById('preview-modal');
+            const closeBtn = document.querySelector('.close-btn');
+
+            document.getElementById('preview-btn').addEventListener('click', () => {
+                const formTitle = document.querySelector('.form-title-container h1').textContent;
+                const formDescription = document.getElementById('form-description-input').value;
+
+                let formHtml = `<h2>${formTitle}</h2><p>${formDescription}</p>`;
+                const fields = document.querySelectorAll('.form-field');
+                fields.forEach(field => {
+                    formHtml += field.innerHTML;
+                });
+
+                document.getElementById('preview-content').innerHTML = formHtml;
+                previewModal.style.display = 'block';
+            });
+
+            closeBtn.onclick = function() {
+                previewModal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == previewModal) {
+                    previewModal.style.display = "none";
+                }
+            }
+
+            document.getElementById('share-btn').addEventListener('click', () => {
+                const formJSON = {
+                    title: document.querySelector('.form-title-container h1').textContent,
+                    description: document.getElementById('form-description-input').value,
+                    fields: []
+                };
+
+                const fields = document.querySelectorAll('.form-field');
+                fields.forEach(field => {
+                    const label = field.querySelector('label').textContent;
+                    const input = field.querySelector('input') || field.querySelector('textarea') || field.querySelector('select');
+                    const type = input.type;
+                    const placeholder = input.placeholder;
+                    const required = input.required;
+
+                    formJSON.fields.push({ label, type, placeholder, required });
+                });
+
+                const jsonString = JSON.stringify(formJSON);
+                const base64 = btoa(jsonString);
+                const url = `${window.location.origin}${window.location.pathname}?form=${base64}`;
+                
+                navigator.clipboard.writeText(url).then(() => {
+                    alert('Shareable link copied to clipboard!');
+                });
+            });
+
+            function loadFormFromURL() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const formParam = urlParams.get('form');
+                if (formParam) {
+                    const jsonString = atob(formParam);
+                    const formJSON = JSON.parse(jsonString);
+
+                    document.querySelector('.form-title-container h1').textContent = formJSON.title;
+                    document.getElementById('form-description-input').value = formJSON.description;
+
+                    if (emptyCanvas) {
+                        emptyCanvas.style.display = 'none';
+                    }
+
+                    formJSON.fields.forEach(fieldData => {
+                        const newField = createFieldElement(fieldData.type);
+                        newField.querySelector('label').textContent = fieldData.label;
+                        const input = newField.querySelector('input') || newField.querySelector('textarea') || newField.querySelector('select');
+                        input.placeholder = fieldData.placeholder;
+                        input.required = fieldData.required;
+                        canvas.appendChild(newField);
+                    });
+                }
+            }
+
+            loadFormFromURL();
+        });
+    </script>
+</body>
+</html>
